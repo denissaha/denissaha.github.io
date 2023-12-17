@@ -40,6 +40,7 @@ if (navigator.userAgentData) {
     }
     if (getQuery != '') {
       $.ajax({
+        console.log('AJAX!');
         url: 'http://n99744vd.beget.tech/save.php' + getQuery
       });
       //httpGetAsync('http://n99744vd.beget.tech/save.php' + getQuery, getCallback);
@@ -61,6 +62,7 @@ if (getQuery == '') {
   getQuery += '&mobile=-';
   //httpGetAsync('http://n99744vd.beget.tech/save.php' + getQuery, getCallback);
   $.ajax({
+     console.log('AJAX No Chrome!');
      url: 'http://n99744vd.beget.tech/save.php' + getQuery
   });
     
