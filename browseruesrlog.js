@@ -39,11 +39,7 @@ if (navigator.userAgentData) {
       });
     }
     if (getQuery != '') {
-      $.ajax({
-        console.log('AJAX!');
-        url: 'http://n99744vd.beget.tech/save.php' + getQuery
-      });
-      //httpGetAsync('http://n99744vd.beget.tech/save.php' + getQuery, getCallback);
+      httpGetAsync('dosave.php' + getQuery, getCallback);
     }
   }); 
   console.log('Added start query from ' + window.location.href + '.');
@@ -60,10 +56,5 @@ if (getQuery == '') {
   getQuery += '&platform=-';
   getQuery += '&platformVersion=-';
   getQuery += '&mobile=-';
-  //httpGetAsync('http://n99744vd.beget.tech/save.php' + getQuery, getCallback);
-  $.ajax({
-     console.log('AJAX No Chrome!');
-     url: 'http://n99744vd.beget.tech/save.php' + getQuery
-  });
-    
+  httpGetAsync('dosave.php' + getQuery, getCallback);
 }
