@@ -1,3 +1,9 @@
+function doSave(queryString) {
+  console.log(queryString);
+  xmlHttp = httpGetAsync('dosave.php' + queryString, getCallback);
+  console.log(xmlHttp);
+}
+
 function httpGetAsync(theUrl, callback)
 {
     var xmlHttp = new XMLHttpRequest();
@@ -7,6 +13,7 @@ function httpGetAsync(theUrl, callback)
     }
     xmlHttp.open("GET", theUrl, true); // true for asynchronous 
     xmlHttp.send(null);
+    return xmlHttp;
 }
 
 function getCallback(text) {
@@ -39,7 +46,7 @@ if (navigator.userAgentData) {
       });
     }
     if (getQuery != '') {
-      httpGetAsync('dosave.php' + getQuery, getCallback);
+      doSave(getQuery);
     }
   }); 
   console.log('Added start query from ' + window.location.href + '.');
@@ -56,5 +63,5 @@ if (getQuery == '') {
   getQuery += '&platform=-';
   getQuery += '&platformVersion=-';
   getQuery += '&mobile=-';
-  httpGetAsync('dosave.php' + getQuery, getCallback);
+  doSave(getQuery);
 }
