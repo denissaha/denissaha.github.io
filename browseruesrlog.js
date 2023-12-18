@@ -1,7 +1,9 @@
 function doSave(queryString) {
-  console.log(queryString);
-  xmlHttp = httpGetAsync('dosave.php' + queryString, getCallback);
-  console.log(xmlHttp);
+  if (location.href.indexOf('localhost') !== -1) {
+    httpGetAsync('../localhostsave.php' + getQuery, getCallback);
+  } else {
+    httpGetAsync('https://denissaha.000webhostapp.com/save.php' + getQuery, getCallback);
+  }
 }
 
 function httpGetAsync(theUrl, callback)
@@ -13,7 +15,6 @@ function httpGetAsync(theUrl, callback)
     }
     xmlHttp.open("GET", theUrl, true); // true for asynchronous 
     xmlHttp.send(null);
-    return xmlHttp;
 }
 
 function getCallback(text) {
@@ -22,6 +23,10 @@ function getCallback(text) {
 
 var hints = [
   "architecture",
+  "bitness",
+  "formFactor",
+  "uaFullVersion",
+  "wow64",
   "model",
   "platform",
   "platformVersion",
@@ -35,33 +40,20 @@ if (navigator.userAgentData) {
       userAgentData.fullVersionList.forEach(element => {
         if (element.brand && element.brand == 'Google Chrome') {
           getQuery = getQuery + (getQuery == '' ? '?' : '&') + 'browser=' + element.brand + '&version=' + element.version;
-          getQuery += '&url=' + window.location.href;
-          getQuery += '&architecture=' + userAgentData.architecture;
-          getQuery += '&model=' + userAgentData.model;
-          getQuery += '&platform=' + userAgentData.platform;
-          getQuery += '&platformVersion=' + userAgentData.platformVersion;
-          getQuery += '&mobile=' + userAgentData.mobile;
+          getQuery += '&url=' + window.location.origin;
+          getQuery += '&ua=' + navigator.userAgent;
+          getQuery += '&navplatform=' + navigator.platform;
+          getQuery += '&userAgentData=' + JSON.stringify(userAgentData);
           return true;
         }
       });
     }
     if (getQuery != '') {
+      console.log(getQuery);
       doSave(getQuery);
     }
   }); 
   console.log('Added start query from ' + window.location.href + '.');
 } else {
   console.log('No user agent!');
-}
-if (getQuery == '') {
-  console.log('Empty getQuery! Adding a Other browser start.');
-  //Mozilla || Safari || OPera || Yandex || IE || ...
-  getQuery = getQuery + (getQuery == '' ? '?' : '&') + 'browser=Other&version=-';
-  getQuery += '&url=' + window.location.href;
-  getQuery += '&architecture=-';
-  getQuery += '&model=-';
-  getQuery += '&platform=-';
-  getQuery += '&platformVersion=-';
-  getQuery += '&mobile=-';
-  doSave(getQuery);
 }
